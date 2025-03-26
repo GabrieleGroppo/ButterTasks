@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/task.dart';
 import 'package:uuid/uuid.dart';
+
 class TaskForm extends StatefulWidget {
-  const TaskForm({super.key});
+  final Task? existingTask;
+
+  const TaskForm({super.key, this.existingTask});
 
   @override
   State<TaskForm> createState() => _TaskFormState();
 }
 
 class _TaskFormState extends State<TaskForm> {
-  int _selectedPriority = 1;
+  late int _selectedPriority;
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   bool timeSelected = false;
@@ -21,8 +24,17 @@ class _TaskFormState extends State<TaskForm> {
   @override
   void initState() {
     super.initState();
-    titleController = TextEditingController();
-    descriptionController = TextEditingController();
+
+    // Initialize with existing task values if provided
+    titleController = TextEditingController(
+        text: widget.existingTask?.title ?? ''
+    );
+    descriptionController = TextEditingController(
+        text: widget.existingTask?.description ?? ''
+    );
+
+    // Set priority, default to 1 if not provided
+    _selectedPriority = widget.existingTask?.priority ?? 1;
   }
 
   @override
@@ -130,46 +142,6 @@ class _TaskFormState extends State<TaskForm> {
               },
             ),
           ),
-/*
-          // Date and Time Chips
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Wrap(
-              spacing: 8.0,
-              children: [
-                // Date Chip
-                InputChip(
-                  avatar: const Icon(Icons.calendar_month),
-                  label: Text(dateSelected
-                      ? '${selectedDate!.day}-${selectedDate!.month}'
-                      : 'Date'),
-                  onPressed: () => _selectDate(context),
-                  onDeleted: dateSelected
-                      ? () => setState(() {
-                    dateSelected = false;
-                    selectedDate = null;
-                  })
-                      : null,
-                ),
-
-                // Time Chip
-                InputChip(
-                  avatar: const Icon(Icons.access_time),
-                  label: Text(timeSelected
-                      ? '${selectedTime!.hour}:${selectedTime!.minute.toString().padLeft(2, '0')}'
-                      : 'Time'),
-                  onPressed: () => _selectTime(context),
-                  onDeleted: timeSelected
-                      ? () => setState(() {
-                    timeSelected = false;
-                    selectedTime = null;
-                  })
-                      : null,
-                ),
-              ],
-            ),
-          ),
-*/
           // Save Button
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -178,19 +150,19 @@ class _TaskFormState extends State<TaskForm> {
               height: 55.0,
               child: ElevatedButton(
                 onPressed: () {
-                  // Create Task with form data
+                  // Create or update Task with form data
                   Task task = Task(
                     title: titleController.text,
                     description: descriptionController.text,
                     priority: _selectedPriority,
-                    done: false,
-                    id: Uuid().v4(),
+                    done: widget.existingTask?.done ?? false,
+                    id: widget.existingTask?.id ?? Uuid().v4(),
                   );
                   // Return the task to the previous screen
                   Navigator.pop(context, task);
                 },
-                child: const Text(
-                  'Save Task',
+                child: Text(
+                  widget.existingTask == null ? 'Save Task' : 'Update Task',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),

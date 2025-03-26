@@ -1,3 +1,4 @@
+import 'package:butter_task/features/task/presentation/widgets/task_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../domain/entities/task.dart';
@@ -18,8 +19,39 @@ class _TaskItemState extends State<TaskItem> {
     Colors.black,
     Colors.blue,
     Colors.orange,
-    Colors.red
+    Colors.red,
   ];
+
+  void _showTaskForm() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder:
+          (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: TaskForm(existingTask: widget.task,),
+          ),
+        ),
+      ),
+    ).then((newTask) {
+      print("created task ==> " + newTask.toString());
+      if (newTask != null) {
+        print("newTask != null");
+        Provider.of<TaskProvider>(context, listen: false).updateTask(newTask);
+      }else {
+        print("newTask == null");
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,35 +60,45 @@ class _TaskItemState extends State<TaskItem> {
         constraints: BoxConstraints.tightForFinite(),
         decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.black, width: 2.0)),
-          //color: Colors.yellow,
-          //borderRadius: BorderRadius.all(Radius.circular(20))
         ),
         child: ListTile(
           selectedColor: Colors.grey,
-          onTap: (){print('Task selezionata');},
-          //trailing: Icon(Icons.drag_handle),
+          onTap: () {
+            print('Task selezionata');
+          },
           leading: IconButton(
             icon: Icon(
-                widget.task.done ? Icons.check_box : Icons.check_box_outline_blank,
-                size: 35,
-                color: priorityColors[widget.task.priority-1]
-            ), //Colors.yellow[600], Colors.red[600], Colors.blue[600]
+              widget.task.done
+                  ? Icons.check_box
+                  : Icons.check_box_outline_blank,
+              size: 35,
+              color: priorityColors[widget.task.priority - 1],
+            ),
             onPressed: () {
               setState(() {
-                Provider.of<TaskProvider>(context, listen: false).toggleTaskCompletion(widget.task);
+                Provider.of<TaskProvider>(
+                  context,
+                  listen: false,
+                ).toggleTaskCompletion(widget.task);
               });
             },
           ),
           title: Text(
             widget.task.title,
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                decoration: widget.task.done
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none),
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              decoration:
+                  widget.task.done
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+            ),
           ),
-          subtitle: Text(widget.task.description,)
+          subtitle: Text(widget.task.description),
+          trailing: IconButton(
+            onPressed: _showTaskForm,
+            icon: Icon(Icons.edit, color: Colors.black),
+          ),
         ),
       ),
     );
