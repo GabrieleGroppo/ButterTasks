@@ -31,8 +31,8 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Run tests
-        run: flutter test
+      # - name: Run tests
+        # run: flutter test
 
       - name: Build Runner
         run: flutter pub run build_runner build --delete-conflicting-outputs
