@@ -37,7 +37,10 @@ class TaskLocalDataSource {
         title TEXT, 
         description TEXT, 
         done INTEGER, 
-        priority INTEGER
+        priority INTEGER,
+        dueDate TEXT,
+        timeSelected INTEGER,
+        dateSelected INTEGER
       )
     ''');
   }
@@ -59,6 +62,9 @@ class TaskLocalDataSource {
         'description': task.description,
         'done': task.done ? 1 : 0,
         'priority': task.priority,
+        'dueDate': task.dueDate?.toString(),
+        'timeSelected': task.timeSelected ? 1 : 0,
+        'dateSelected': task.dateSelected ? 1 : 0,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -78,6 +84,9 @@ class TaskLocalDataSource {
           'description': task.description,
           'done': task.done ? 1 : 0,
           'priority': task.priority,
+          'dueDate': task.dueDate?.toString(),
+          'timeSelected': task.timeSelected ? 1 : 0,
+          'dateSelected': task.dateSelected ? 1 : 0,
         },
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
@@ -113,6 +122,9 @@ class TaskLocalDataSource {
         'description': task.description,
         'done': task.done ? 1 : 0,
         'priority': task.priority,
+        'dueDate': task.dueDate?.toString(),
+        'timeSelected': task.timeSelected ? 1 : 0,
+        'dateSelected': task.dateSelected ? 1 : 0,
       },
       where: 'id = ?',
       whereArgs: [task.id],
@@ -183,14 +195,26 @@ class TaskLocalDataSource {
     return prefs.getString('last_active_task_id');
   }
 
-  // Helper Method to Map Database Record to Task
   Task _mapToTask(Map<String, dynamic> map) {
+    DateTime? parsedDueDate;
+
+    if (map['dueDate'] != null && map['dueDate'] is String) {
+      try {
+        parsedDueDate = DateTime.tryParse(map['dueDate']);
+      } catch (e) {
+        print('Data parsing error: ${map['dueDate']}');
+      }
+    }
+
     return Task(
       id: map['id'],
       title: map['title'],
       description: map['description'] ?? '',
       done: map['done'] == 1,
       priority: map['priority'] ?? 1,
+      dueDate: parsedDueDate,
+      timeSelected: map['timeSelected'] == 1,
+      dateSelected: map['dateSelected'] == 1,
     );
   }
 }

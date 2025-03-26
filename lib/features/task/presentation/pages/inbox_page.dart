@@ -42,12 +42,8 @@ class _InboxPageState extends State<InboxPage> {
             ),
           ),
     ).then((newTask) {
-      print("created task ==> " + newTask.toString());
       if (newTask != null) {
-        print("newTask != null");
         _addTask(newTask);
-      }else {
-        print("newTask == null");
       }
     });
   }
@@ -81,9 +77,7 @@ class _InboxPageState extends State<InboxPage> {
             Expanded(
               child: Consumer<TaskProvider>(
                 builder: (context, taskProvider, child) {
-                  return TaskList(
-                    key: UniqueKey(),
-                  );
+                  return TaskList(key: UniqueKey());
                 },
               ),
             ),
