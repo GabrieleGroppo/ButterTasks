@@ -31,21 +31,36 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Run tests
+        run: flutter test
+
+      - name: Build Runner
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
       - name: Build Android App
         run: flutter build apk --debug
-        
-      - name: SonarCloud Scan
+
+      - name: Debug SonarCloud Token
+        run: |
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "ERROR: SONAR_TOKEN is not set"
+            exit 1
+          else
+            echo "SONAR_TOKEN is set"
+          fi
+
+      - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           projectBaseDir: .
           args: >
-            -Dsonar.organization=your-organization-key
             -Dsonar.projectKey=your-project-key
+            -Dsonar.organization=your-organization-key
             -Dsonar.sourceEncoding=UTF-8
             -Dsonar.sources=lib
             -Dsonar.test.sources=test
             -Dsonar.verbose=true
-
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
