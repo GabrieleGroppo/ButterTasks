@@ -94,7 +94,14 @@ class _TaskItemState extends State<TaskItem> {
                       : TextDecoration.none,
             ),
           ),
-          subtitle: Text(widget.task.description),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(widget.task.description),
+              //print date and time like so 20-10-2023 12:00 in bold
+              Text(widget.task.getDate(), style: TextStyle(fontWeight: FontWeight.bold)),
+            ]
+          ),
           trailing: IconButton(
             onPressed: _showTaskForm,
             icon: Icon(Icons.edit, color: Colors.black),

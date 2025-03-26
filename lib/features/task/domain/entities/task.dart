@@ -1,16 +1,24 @@
+import 'package:flutter/material.dart';
+
 class Task {
   late final String id;
   String title;
   String description;
   bool done;
   int priority;
+  DateTime? dueDate;
+  bool timeSelected;
+  bool dateSelected;
 
   Task({
     String? id,
     required this.title,
     this.description = '',
     this.done = false,
-    this.priority = 1, // Default priority
+    this.priority = 1,
+    this.dueDate,
+    this.timeSelected = false,
+    this.dateSelected = false,
   }) : id = id ?? DateTime.now().toString();
 
   // copyWith method
@@ -20,6 +28,9 @@ class Task {
     String? description,
     bool? done,
     int? priority,
+    DateTime? dueDate,
+    bool? timeSelected,
+    bool? dateSelected,
   }) {
     return Task(
       id: id ?? this.id,
@@ -27,6 +38,9 @@ class Task {
       description: description ?? this.description,
       done: done ?? this.done,
       priority: priority ?? this.priority,
+      dueDate: dueDate ?? this.dueDate,
+      timeSelected: this.timeSelected,
+      dateSelected: this.dateSelected,
     );
   }
 
@@ -34,5 +48,19 @@ class Task {
 
   void toggleTask() {
     done = !done;
+  }
+
+  String getDate() {
+    String date = '';
+    if (dueDate != null) {
+      if (dateSelected) {
+        date = '${dueDate!.day}-${dueDate!.month}-${dueDate!.year}';
+      }
+      if (timeSelected) {
+        date += ' ${dueDate!.hour}:${dueDate!.minute}';
+      }
+    }
+
+    return date;
   }
 }

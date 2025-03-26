@@ -15,8 +15,8 @@ class _TaskFormState extends State<TaskForm> {
   late int _selectedPriority;
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
-  bool timeSelected = false;
-  bool dateSelected = false;
+  late bool timeSelected;
+  late bool dateSelected;
 
   late TextEditingController titleController;
   late TextEditingController descriptionController;
@@ -27,14 +27,22 @@ class _TaskFormState extends State<TaskForm> {
 
     // Initialize with existing task values if provided
     titleController = TextEditingController(
-        text: widget.existingTask?.title ?? ''
+      text: widget.existingTask?.title ?? '',
     );
     descriptionController = TextEditingController(
-        text: widget.existingTask?.description ?? ''
+      text: widget.existingTask?.description ?? '',
     );
 
     // Set priority, default to 1 if not provided
     _selectedPriority = widget.existingTask?.priority ?? 1;
+
+    // Set date and time if provided
+    selectedDate = widget.existingTask?.dueDate;
+    selectedTime = TimeOfDay.fromDateTime(
+      widget.existingTask?.dueDate ?? DateTime.now(),
+    );
+    timeSelected = widget.existingTask?.timeSelected ?? false;
+    dateSelected = widget.existingTask?.dateSelected ?? false;
   }
 
   @override
@@ -46,10 +54,10 @@ class _TaskFormState extends State<TaskForm> {
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate ?? DateTime.now(),
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101)
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2015, 8),
+      lastDate: DateTime(2101),
     );
     if (picked != null) {
       setState(() {
@@ -118,21 +126,25 @@ class _TaskFormState extends State<TaskForm> {
             child: SegmentedButton<int>(
               segments: const <ButtonSegment<int>>[
                 ButtonSegment(
-                    value: 1,
-                    label: Text('P1'),
-                    icon: Icon(Icons.flag, color: Colors.black)),
+                  value: 1,
+                  label: Text('P1'),
+                  icon: Icon(Icons.flag, color: Colors.black),
+                ),
                 ButtonSegment(
-                    value: 2,
-                    label: Text('P2'),
-                    icon: Icon(Icons.flag, color: Colors.blue)),
+                  value: 2,
+                  label: Text('P2'),
+                  icon: Icon(Icons.flag, color: Colors.blue),
+                ),
                 ButtonSegment(
-                    value: 3,
-                    label: Text('P3'),
-                    icon: Icon(Icons.flag, color: Colors.orange)),
+                  value: 3,
+                  label: Text('P3'),
+                  icon: Icon(Icons.flag, color: Colors.orange),
+                ),
                 ButtonSegment(
-                    value: 4,
-                    label: Text('P4'),
-                    icon: Icon(Icons.flag, color: Colors.red)),
+                  value: 4,
+                  label: Text('P4'),
+                  icon: Icon(Icons.flag, color: Colors.red),
+                ),
               ],
               selected: <int>{_selectedPriority},
               onSelectionChanged: (Set<int> newSelection) {
@@ -151,31 +163,36 @@ class _TaskFormState extends State<TaskForm> {
                 // Date Chip
                 InputChip(
                   avatar: const Icon(Icons.calendar_month),
-                  label: Text(dateSelected
-                      ? '${selectedDate!.day}-${selectedDate!.month}'
-                      : 'Date'),
+                  label: Text(
+                    dateSelected
+                        ? '${selectedDate!.day}-${selectedDate!.month}'
+                        : 'Date',
+                  ),
                   onPressed: () => _selectDate(context),
-                  onDeleted: dateSelected
-                      ? () => setState(() {
-                    dateSelected = false;
-                    selectedDate = null;
-                  })
-                      : null,
+                  onDeleted:
+                      dateSelected
+                          ? () => setState(() {
+                            dateSelected = false;
+                            //selectedDate = null;
+                          })
+                          : null,
                 ),
 
                 // Time Chip
                 InputChip(
                   avatar: const Icon(Icons.access_time),
-                  label: Text(timeSelected
-                      ? '${selectedTime!.hour}:${selectedTime!.minute.toString().padLeft(2, '0')}'
-                      : 'Time'),
+                  label: Text(
+                    timeSelected
+                        ? '${selectedTime!.hour}:${selectedTime!.minute.toString().padLeft(2, '0')}'
+                        : 'Time',
+                  ),
                   onPressed: () => _selectTime(context),
-                  onDeleted: timeSelected
-                      ? () => setState(() {
-                    timeSelected = false;
-                    selectedTime = null;
-                  })
-                      : null,
+                  onDeleted:
+                      timeSelected
+                          ? () => setState(() {
+                            timeSelected = false;
+                          })
+                          : null,
                 ),
               ],
             ),
@@ -188,6 +205,14 @@ class _TaskFormState extends State<TaskForm> {
               height: 55.0,
               child: ElevatedButton(
                 onPressed: () {
+                  //add selected time to selected date
+                  selectedDate = DateTime(
+                    selectedDate!.year,
+                    selectedDate!.month,
+                    selectedDate!.day,
+                    selectedTime!.hour,
+                    selectedTime!.minute,
+                  );
                   // Create or update Task with form data
                   Task task = Task(
                     title: titleController.text,
@@ -195,6 +220,9 @@ class _TaskFormState extends State<TaskForm> {
                     priority: _selectedPriority,
                     done: widget.existingTask?.done ?? false,
                     id: widget.existingTask?.id ?? Uuid().v4(),
+                    dueDate: selectedDate,
+                    timeSelected: timeSelected,
+                    dateSelected: dateSelected,
                   );
                   // Return the task to the previous screen
                   Navigator.pop(context, task);
