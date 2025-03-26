@@ -33,9 +33,19 @@ jobs:
 
       - name: Build Android App
         run: flutter build apk --debug
-
-      - name: SonarQube Scan
+        
+      - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.organization=your-organization-key
+            -Dsonar.projectKey=your-project-key
+            -Dsonar.sourceEncoding=UTF-8
+            -Dsonar.sources=lib
+            -Dsonar.test.sources=test
+            -Dsonar.verbose=true
 
