@@ -54,6 +54,8 @@ class TaskProvider with ChangeNotifier {
     final index = _tasks.indexWhere((t) => t.id == task.id);
     if (index != -1) {
       _tasks[index] = task.copyWith(done: !task.done);
+      _repository.updateTask(_tasks[index]);
+      print("task updated ==> " + task.done.toString());
       notifyListeners();
     }
   }

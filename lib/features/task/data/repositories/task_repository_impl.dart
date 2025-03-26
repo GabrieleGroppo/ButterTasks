@@ -34,6 +34,15 @@ class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
+  Future<void> updateTask(Task task) async {
+    try {
+      await localDataSource.updateTask(task);
+    } catch (e) {
+      print('Error updating task: $e');
+    }
+  }
+
+  @override
   Future<void> removeTask(Task task) async {
     try {
       await localDataSource.deleteTask(task.id);

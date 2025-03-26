@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../domain/entities/task.dart';
+import '../providers/task_provider.dart';
 
 class TaskItem extends StatefulWidget {
   final Task task;
@@ -11,7 +13,6 @@ class TaskItem extends StatefulWidget {
 }
 
 class _TaskItemState extends State<TaskItem> {
-  bool check = false;
   IconData iconData = Icons.check_box_outline_blank;
   List<Color> priorityColors = [
     Colors.black,
@@ -36,15 +37,13 @@ class _TaskItemState extends State<TaskItem> {
           //trailing: Icon(Icons.drag_handle),
           leading: IconButton(
             icon: Icon(
-                check ? Icons.check_box : Icons.check_box_outline_blank,
+                widget.task.done ? Icons.check_box : Icons.check_box_outline_blank,
                 size: 35,
                 color: priorityColors[widget.task.priority-1]
             ), //Colors.yellow[600], Colors.red[600], Colors.blue[600]
             onPressed: () {
               setState(() {
-                check = !check;
-                widget.task.toggleTask();
-                //Navigator.of(context).
+                Provider.of<TaskProvider>(context, listen: false).toggleTaskCompletion(widget.task);
               });
             },
           ),
@@ -53,7 +52,7 @@ class _TaskItemState extends State<TaskItem> {
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                decoration: check
+                decoration: widget.task.done
                     ? TextDecoration.lineThrough
                     : TextDecoration.none),
           ),
