@@ -31,9 +31,6 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      # - name: Run tests
-        # run: flutter test
-
       - name: Build Android App
         run: flutter build apk --debug
 
@@ -41,11 +38,4 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        with:
-          projectBaseDir: .
-          args: >
-            -Dsonar.sourceEncoding=UTF-8
-            -Dsonar.sources=lib
-            -Dsonar.test.sources=test
-            -Dsonar.verbose=true
+
