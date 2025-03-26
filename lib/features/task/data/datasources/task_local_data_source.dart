@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-
 import '../../domain/entities/task.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -200,12 +198,11 @@ class TaskLocalDataSource {
   Task _mapToTask(Map<String, dynamic> map) {
     DateTime? parsedDueDate;
 
-    // Gestione sicura di dueDate
     if (map['dueDate'] != null && map['dueDate'] is String) {
       try {
         parsedDueDate = DateTime.tryParse(map['dueDate']);
       } catch (e) {
-        print('Errore nel parsing della data: ${map['dueDate']}');
+        print('Data parsing error: ${map['dueDate']}');
       }
     }
 

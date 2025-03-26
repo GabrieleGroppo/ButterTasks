@@ -31,23 +31,19 @@ class _TaskItemState extends State<TaskItem> {
       ),
       builder:
           (context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: TaskForm(existingTask: widget.task,),
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                child: TaskForm(existingTask: widget.task),
+              ),
+            ),
           ),
-        ),
-      ),
     ).then((newTask) {
-      print("created task ==> " + newTask.toString());
       if (newTask != null) {
-        print("newTask != null");
-        Provider.of<TaskProvider>(context, listen: false).updateTask(newTask);
-      }else {
-        print("newTask == null");
+        Provider.of<TaskProvider>(context.mounted ? context : context, listen: false).updateTask(newTask);
       }
     });
   }
@@ -63,9 +59,7 @@ class _TaskItemState extends State<TaskItem> {
         ),
         child: ListTile(
           selectedColor: Colors.grey,
-          onTap: () {
-            print('Task selezionata');
-          },
+          onTap: () {},
           leading: IconButton(
             icon: Icon(
               widget.task.done
@@ -99,8 +93,11 @@ class _TaskItemState extends State<TaskItem> {
             children: [
               Text(widget.task.description),
               //print date and time like so 20-10-2023 12:00 in bold
-              Text(widget.task.getDate(), style: TextStyle(fontWeight: FontWeight.bold)),
-            ]
+              Text(
+                widget.task.getDate(),
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
           trailing: IconButton(
             onPressed: _showTaskForm,
