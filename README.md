@@ -6,3 +6,10 @@ A simple crossplatform task manager written in flutter.
 - add new task
 - remove an existent task
 - persistance layer to store all your tasks in a sqlite db
+
+### Screens
+![Empty inbox](Screenshoots/butter_task1.png)
+![Inbox with tasks](Screenshoots/butter_task2.png)
+![Task form dialog](Screenshoots/butter_task3.png)
+![Task form dialog & keyboard](Screenshoots/butter_task4.png)
+![Toggled task](Screenshoots/butter_task5.png)
