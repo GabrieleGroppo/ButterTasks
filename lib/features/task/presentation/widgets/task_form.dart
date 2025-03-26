@@ -142,6 +142,44 @@ class _TaskFormState extends State<TaskForm> {
               },
             ),
           ),
+          // Date and Time Chips
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              spacing: 8.0,
+              children: [
+                // Date Chip
+                InputChip(
+                  avatar: const Icon(Icons.calendar_month),
+                  label: Text(dateSelected
+                      ? '${selectedDate!.day}-${selectedDate!.month}'
+                      : 'Date'),
+                  onPressed: () => _selectDate(context),
+                  onDeleted: dateSelected
+                      ? () => setState(() {
+                    dateSelected = false;
+                    selectedDate = null;
+                  })
+                      : null,
+                ),
+
+                // Time Chip
+                InputChip(
+                  avatar: const Icon(Icons.access_time),
+                  label: Text(timeSelected
+                      ? '${selectedTime!.hour}:${selectedTime!.minute.toString().padLeft(2, '0')}'
+                      : 'Time'),
+                  onPressed: () => _selectTime(context),
+                  onDeleted: timeSelected
+                      ? () => setState(() {
+                    timeSelected = false;
+                    selectedTime = null;
+                  })
+                      : null,
+                ),
+              ],
+            ),
+          ),
           // Save Button
           Padding(
             padding: const EdgeInsets.all(8.0),
