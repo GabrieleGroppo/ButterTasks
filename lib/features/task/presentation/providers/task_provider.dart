@@ -5,6 +5,9 @@ import 'package:butter_task/features/task/domain/repositories/task_repository.da
 class TaskProvider with ChangeNotifier {
   final TaskRepository _repository;
   List<Task> _tasks = [];
+  bool showDoneTasks = false;
+
+  List<Task> get selectedTasks => _tasks.where((task) => task.done == showDoneTasks).toList();
   List<Task> get tasks => _tasks;
 
   TaskProvider(this._repository);
