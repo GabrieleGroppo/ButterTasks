@@ -19,7 +19,7 @@ class TaskProvider with ChangeNotifier {
 
       // Update the tasks list
       _tasks = fetchedTasks;
-
+      _tasks.sort((a, b) => a.position.compareTo(b.position));
       // Notify listeners that the state has changed
       notifyListeners();
     } catch (e) {
@@ -31,6 +31,7 @@ class TaskProvider with ChangeNotifier {
   // Method to add a new task
   Future<void> addTask(Task task) async {
     try {
+      task.position = _tasks.length;
       // Call repository to add task
       final addedTask = await _repository.addTask(task);
 
@@ -69,5 +70,17 @@ class TaskProvider with ChangeNotifier {
       _repository.updateTask(_tasks[index]);
       notifyListeners();
     }
+  }
+
+  void updateTaskOrder(List<Task> updatedTasks) {
+    for (Task task in tasks) {
+      task.position = updatedTasks.indexOf(task);
+    }
+    //sort tasks by position
+    _tasks.sort((a, b) => a.position.compareTo(b.position));
+    for (Task task in _tasks) {
+      _repository.updateTask(task);
+    }
+    notifyListeners();
   }
 }

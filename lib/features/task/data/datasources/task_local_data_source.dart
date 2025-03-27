@@ -40,7 +40,8 @@ class TaskLocalDataSource {
         priority INTEGER,
         dueDate TEXT,
         timeSelected INTEGER,
-        dateSelected INTEGER
+        dateSelected INTEGER,
+        position INTEGER
       )
     ''');
   }
@@ -65,6 +66,7 @@ class TaskLocalDataSource {
         'dueDate': task.dueDate?.toString(),
         'timeSelected': task.timeSelected ? 1 : 0,
         'dateSelected': task.dateSelected ? 1 : 0,
+        'position': task.position,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -87,6 +89,7 @@ class TaskLocalDataSource {
           'dueDate': task.dueDate?.toString(),
           'timeSelected': task.timeSelected ? 1 : 0,
           'dateSelected': task.dateSelected ? 1 : 0,
+          'position': task.position,
         },
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
@@ -125,6 +128,7 @@ class TaskLocalDataSource {
         'dueDate': task.dueDate?.toString(),
         'timeSelected': task.timeSelected ? 1 : 0,
         'dateSelected': task.dateSelected ? 1 : 0,
+        'position': task.position,
       },
       where: 'id = ?',
       whereArgs: [task.id],
@@ -215,6 +219,7 @@ class TaskLocalDataSource {
       dueDate: parsedDueDate,
       timeSelected: map['timeSelected'] == 1,
       dateSelected: map['dateSelected'] == 1,
+      position: map['position'] ?? 0,
     );
   }
 }
