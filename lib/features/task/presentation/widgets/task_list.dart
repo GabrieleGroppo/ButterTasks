@@ -25,7 +25,7 @@ class _TaskListState extends State<TaskList> {
     super.didChangeDependencies();
     final taskProvider = Provider.of<TaskProvider>(context);
     setState(() {
-      tasks = taskProvider.tasks;
+      tasks = taskProvider.selectedTasks;
     });
   }
 
@@ -39,7 +39,7 @@ class _TaskListState extends State<TaskList> {
     return tasks.isEmpty
         ? Center(
           child: Text(
-            'No tasks yet. Add a task!',
+            Provider.of<TaskProvider>(context).showDoneTasks ? 'No tasks already done.' : 'No tasks yet. Add a task!',
             style: Theme.of(context).textTheme.titleMedium,
           ),
         )

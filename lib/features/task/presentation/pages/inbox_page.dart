@@ -13,6 +13,8 @@ class InboxPage extends StatefulWidget {
 }
 
 class _InboxPageState extends State<InboxPage> {
+  bool showDone = false;
+
   @override
   void initState() {
     super.initState();
@@ -73,6 +75,24 @@ class _InboxPageState extends State<InboxPage> {
             Text(
               "Butter Tasks",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8),
+                  child: FilterChip(
+                    label: Text('Show done tasks'),
+                    selected: showDone,
+                    onSelected: (selected) {
+                      setState(() {
+                        Provider.of<TaskProvider>(context, listen: false)
+                            .showDoneTasks = selected;
+                        showDone = selected;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: Consumer<TaskProvider>(
