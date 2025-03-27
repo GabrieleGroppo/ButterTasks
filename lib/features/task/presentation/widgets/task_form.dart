@@ -206,14 +206,24 @@ class _TaskFormState extends State<TaskForm> {
               child: ElevatedButton(
                 onPressed: () {
                   //add selected time to selected date
-                  selectedDate = DateTime(
-                    selectedDate!.year,
-                    selectedDate!.month,
-                    selectedDate!.day,
-                    selectedTime!.hour,
-                    selectedTime!.minute,
-                  );
+                  if (dateSelected == false && timeSelected == true) {
+                        selectedDate = DateTime.now();
+                        dateSelected = true;
+                  }
+
+                  if (selectedDate != null && selectedTime != null) {
+                    selectedDate = DateTime(
+                      selectedDate!.year,
+                      selectedDate!.month,
+                      selectedDate!.day,
+                      selectedTime!.hour,
+                      selectedTime!.minute,
+                    );
+                  }
                   // Create or update Task with form data
+                  if(titleController.text.isEmpty) {
+                    return;
+                  }
                   Task task = Task(
                     title: titleController.text,
                     description: descriptionController.text,
