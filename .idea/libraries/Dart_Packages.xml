@@ -303,6 +303,13 @@
             </list>
           </value>
         </entry>
+        <entry key="sqflite_common_ffi">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.5/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="sqflite_darwin">
           <value>
             <list>
@@ -314,6 +321,13 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_platform_interface-2.4.0/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="sqlite3">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sqlite3-2.7.5/lib" />
             </list>
           </value>
         </entry>
@@ -443,8 +457,10 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite-2.4.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_android-2.4.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_common-2.5.5/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.5/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_platform_interface-2.4.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqlite3-2.7.5/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/stack_trace-1.12.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/stream_channel-2.1.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/string_scanner-1.4.1/lib" />

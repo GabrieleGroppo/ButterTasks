@@ -1,5 +1,7 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:butter_task/features/task/presentation/providers/task_provider.dart';
 import 'package:butter_task/features/task/presentation/pages/inbox_page.dart';
 import 'package:butter_task/features/task/domain/repositories/task_repository.dart';
@@ -8,6 +10,14 @@ import 'package:butter_task/features/task/data/datasources/task_local_data_sourc
 import 'package:butter_task/features/task/data/datasources/task_remote_data_source.dart';
 
 void main() {
+  // Initialize SQLite for desktop/non-mobile platforms
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    // Initialize FFI
+    sqfliteFfiInit();
+    // Set the database factory to the FFI implementation
+    databaseFactory = databaseFactoryFfi;
+  }
+
   // Create the dependencies
   final TaskLocalDataSource localDataSource = TaskLocalDataSource();
   final TaskRemoteDataSource remoteDataSource = TaskRemoteDataSourceImpl();
