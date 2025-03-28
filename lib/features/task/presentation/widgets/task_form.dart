@@ -233,6 +233,7 @@ class _TaskFormState extends State<TaskForm> {
                     dueDate: selectedDate,
                     timeSelected: timeSelected,
                     dateSelected: dateSelected,
+                    position: widget.existingTask?.position ?? 0,
                   );
                   // Return the task to the previous screen
                   Navigator.pop(context, task);

@@ -7,6 +7,7 @@ class Task {
   DateTime? dueDate;
   bool timeSelected;
   bool dateSelected;
+  int position;
 
   Task({
     String? id,
@@ -17,6 +18,7 @@ class Task {
     this.dueDate,
     this.timeSelected = false,
     this.dateSelected = false,
+    this.position = 0,
   }) : id = id ?? DateTime.now().toString();
 
   // copyWith method
@@ -29,6 +31,7 @@ class Task {
     DateTime? dueDate,
     bool? timeSelected,
     bool? dateSelected,
+    int? position,
   }) {
     return Task(
       id: id ?? this.id,
@@ -39,6 +42,7 @@ class Task {
       dueDate: dueDate ?? this.dueDate,
       timeSelected: this.timeSelected,
       dateSelected: this.dateSelected,
+      position: position ?? this.position,
     );
   }
 

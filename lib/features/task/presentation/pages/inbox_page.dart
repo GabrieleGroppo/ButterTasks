@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:butter_task/features/task/presentation/providers/task_provider.dart';
 import 'package:butter_task/features/task/presentation/widgets/task_list.dart';
 import 'package:butter_task/features/task/domain/entities/task.dart';
-import 'package:butter_task/features/task/presentation/widgets/task_form.dart'; // Make sure this import is correct
+import 'package:butter_task/features/task/presentation/widgets/task_form.dart';
+
+import '../widgets/task_sliver_list.dart'; // Make sure this import is correct
 
 class InboxPage extends StatefulWidget {
   const InboxPage({super.key});
@@ -97,7 +99,7 @@ class _InboxPageState extends State<InboxPage> {
             Expanded(
               child: Consumer<TaskProvider>(
                 builder: (context, taskProvider, child) {
-                  return TaskList(key: UniqueKey());
+                  return TaskSliverList(key: UniqueKey());
                 },
               ),
             ),
