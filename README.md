@@ -18,3 +18,5 @@ A simple crossplatform task manager written in flutter.
 ![Only Date Time](Screenshoots/butter_task8.png)
 ![Date picker](Screenshoots/butter_task9.png)
 ![Time picker](Screenshoots/butter_task10.png)
+![Not done tasks](Screenshoots/butter_task11.png)
+![Just done tasks](Screenshoots/butter_task12.png)
