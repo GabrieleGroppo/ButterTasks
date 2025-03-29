@@ -2,15 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:butter_task/features/task/domain/entities/task.dart';
 import 'package:butter_task/features/task/domain/repositories/task_repository.dart';
 
+import '../../domain/usecases/create_task_use_case.dart';
+
 class TaskProvider with ChangeNotifier {
   final TaskRepository _repository;
   List<Task> _tasks = [];
   bool showDoneTasks = false;
 
+  final CreateTaskUseCase createTaskUseCase;
+
   List<Task> get selectedTasks => _tasks.where((task) => task.done == showDoneTasks).toList();
   List<Task> get tasks => _tasks;
 
-  TaskProvider(this._repository);
+  TaskProvider(this._repository, this.createTaskUseCase);
 
   Future<void> fetchTasks() async {
     try {
@@ -32,12 +36,13 @@ class TaskProvider with ChangeNotifier {
   Future<void> addTask(Task task) async {
     try {
       task.position = _tasks.length;
-      // Call repository to add task
+      /*// Call repository to add task
       final addedTask = await _repository.addTask(task);
 
       // Add the new task to the list
       _tasks.add(addedTask);
-
+      */
+      createTaskUseCase.call(task);
       // Notify listeners that the state has changed
       notifyListeners();
     } catch (e) {

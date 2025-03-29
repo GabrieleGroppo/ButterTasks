@@ -8,6 +8,13 @@ import 'package:butter_task/features/task/domain/repositories/task_repository.da
 import 'package:butter_task/features/task/data/repositories/task_repository_impl.dart';
 import 'package:butter_task/features/task/data/datasources/task_local_data_source.dart';
 import 'package:butter_task/features/task/data/datasources/task_remote_data_source.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import 'features/task/data/datasources/notification_data_source_impl.dart';
+import 'features/task/data/repositories/notification_repository_impl.dart';
+import 'features/task/domain/repositories/notification_repository.dart';
+import 'features/task/domain/usecases/create_task_use_case.dart';
+import 'features/task/domain/usecases/schedule_task_due_date_notification_use_case.dart';
 
 void main() {
   // Initialize SQLite for desktop/non-mobile platforms
@@ -16,6 +23,18 @@ void main() {
     sqfliteFfiInit();
     // Set the database factory to the FFI implementation
     databaseFactory = databaseFactoryFfi;
+  }
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  Future<void> initNotifications() async {
+    const AndroidInitializationSettings androidInitSettings =
+    AndroidInitializationSettings('@mipmap/ic_launcher');
+    final InitializationSettings initSettings =
+    InitializationSettings(android: androidInitSettings);
+
+    await flutterLocalNotificationsPlugin.initialize(initSettings);
   }
 
   // Create the dependencies
@@ -27,11 +46,23 @@ void main() {
     //remoteDataSource: remoteDataSource,
   );
 
+  final NotificationRepository notificationRepository = NotificationRepositoryImpl(
+    dataSource: NotificationDataSourceImpl(flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin),
+  );
+
+  final CreateTaskUseCase createTaskUseCase = CreateTaskUseCase(
+    taskRepository: taskRepository,
+    scheduleNotification: ScheduleTaskDueDateNotificationUseCase(repository: notificationRepository),
+  );
+
+
+
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => TaskProvider(taskRepository),
+          create: (context) => TaskProvider(taskRepository, createTaskUseCase),
         ),
       ],
       child: const MyApp(),
