@@ -1,4 +1,5 @@
 # butter_task
+![image](https://github.com/user-attachments/assets/78b45a7f-32f2-4b38-b209-7afbaac3e594)
 
 A simple crossplatform task manager written in flutter.
 
