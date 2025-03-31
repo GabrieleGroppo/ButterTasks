@@ -9,15 +9,15 @@ A simple crossplatform task manager written in flutter.
 - persistance layer to store all your tasks in a sqlite db
 
 ### Screens
-<img src="Screenshoots/butter_task1.png" alt="Empty inbox" width="300" height="200">
-<img src="Screenshoots/butter_task2.png" alt="Inbox with tasks" width="300" height="200">
-<img src="Screenshoots/butter_task3.png" alt="Task form dialog" width="300" height="200">
-<img src="Screenshoots/butter_task4.png" alt="Task form dialog & keyboard" width="300" height="200">
-<img src="Screenshoots/butter_task5.png" alt="Date Time" width="300" height="200">
-<img src="Screenshoots/butter_task6.png" alt="Date Task" width="300" height="200">
-<img src="Screenshoots/butter_task7.png" alt="Just Date" width="300" height="200">
-<img src="Screenshoots/butter_task8.png" alt="Only Date Time" width="300" height="200">
-<img src="Screenshoots/butter_task9.png" alt="Date picker" width="300" height="200">
-<img src="Screenshoots/butter_task10.png" alt="Time picker" width="300" height="200">
-<img src="Screenshoots/butter_task11.png" alt="Not done tasks" width="300" height="200">
-<img src="Screenshoots/butter_task12.png" alt="Just done tasks" width="300" height="200">
+<img src="Screenshoots/butter_task1.png" alt="Empty inbox" width="384" height="216">
+<img src="Screenshoots/butter_task2.png" alt="Inbox with tasks" width="384" height="216">
+<img src="Screenshoots/butter_task3.png" alt="Task form dialog" width="384" height="216">
+<img src="Screenshoots/butter_task4.png" alt="Task form dialog & keyboard" width="384" height="216">
+<img src="Screenshoots/butter_task5.png" alt="Date Time" width="384" height="216">
+<img src="Screenshoots/butter_task6.png" alt="Date Task" width="384" height="216">
+<img src="Screenshoots/butter_task7.png" alt="Just Date" width="384" height="216">
+<img src="Screenshoots/butter_task8.png" alt="Only Date Time" width="384" height="216">
+<img src="Screenshoots/butter_task9.png" alt="Date picker" width="384" height="216">
+<img src="Screenshoots/butter_task10.png" alt="Time picker" width="384" height="216">
+<img src="Screenshoots/butter_task11.png" alt="Not done tasks" width="384" height="216">
+<img src="Screenshoots/butter_task12.png" alt="Just done tasks" width="384" height="216">
